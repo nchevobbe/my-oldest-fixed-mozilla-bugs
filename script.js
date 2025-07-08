@@ -112,12 +112,16 @@ async function onFormSubmit(appendEmail = true) {
 function createBugItem(bug) {
   const li = document.createElement("li");
 
-  const header = document.createElement("header");
-  const date = document.createElement("time");
-  date.textContent = bug.resolution.format("YYYY-MM-DD");
-  date.classList.add("date");
+  const footer = document.createElement("footer");
+  const creationDate = document.createElement("time");
+  creationDate.textContent = bug.creation.format("YYYY-MM-DD");
+  creationDate.classList.add("date");
 
-  const duration = document.createElement("span");
+  const resolutionDate = document.createElement("time");
+  resolutionDate.textContent = bug.resolution.format("YYYY-MM-DD");
+  resolutionDate.classList.add("date");
+
+  const duration = document.createElement("div");
   const diffDuration = moment.duration(bug.diff);
   const years = diffDuration.years();
   const months = diffDuration.months();
@@ -125,13 +129,18 @@ function createBugItem(bug) {
   duration.innerHTML = `(open for <em>${years}</em> years <em>${months}</em> months <em>${days}</em> days)`;
   duration.classList.add("duration");
 
-  header.append(date, duration);
+  footer.append(
+    creationDate,
+    document.createTextNode(" → "),
+    resolutionDate,
+    duration
+  );
 
   const bugEl = document.createElement("a");
   bugEl.href = bug.url;
   bugEl.textContent = `Bug ${bug.id} - ${bug.summary}`;
 
-  li.append(header, bugEl);
+  li.append(bugEl, footer);
   return li;
 }
 
