@@ -94,51 +94,12 @@ async function onFormSubmit(appendEmail = true) {
 
   const oldestFragment = document.createDocumentFragment();
   oldest.forEach((bug) => {
-    const li = document.createElement("li");
-
-    const date = document.createElement("span");
-    date.textContent = bug.creation.format("YYYY-MM-DD");
-    date.classList.add("date");
-
-    const bugEl = document.createElement("a");
-    bugEl.href = bug.url;
-    bugEl.textContent = `Bug ${bug.id} - ${bug.summary}`;
-
-    li.append(date, bugEl);
-    oldestFragment.appendChild(li);
+    oldestFragment.appendChild(createBugItem(bug));
   });
 
   const longestFragment = document.createDocumentFragment();
   for (const bug of longest) {
-    const diffDuration = moment.duration(bug.diff);
-    const years = diffDuration.years();
-    const months = diffDuration.months();
-    const days = diffDuration.days();
-    const li = document.createElement("li");
-
-    const date = document.createElement("span");
-    date.textContent = bug.resolution.format("YYYY-MM-DD");
-    date.classList.add("date");
-
-    const yearsEl = document.createElement("span");
-    yearsEl.classList.add("years");
-    yearsEl.textContent = years + " years";
-
-    const monthsEl = document.createElement("span");
-    monthsEl.classList.add("months");
-    monthsEl.textContent = months + " months";
-
-    const daysEl = document.createElement("span");
-    daysEl.classList.add("days");
-    daysEl.textContent = days + " days";
-
-    const bugEl = document.createElement("a");
-    bugEl.href = bug.url;
-    bugEl.textContent = `Bug ${bug.id} - ${bug.summary}`;
-
-    li.append(date, bugEl, yearsEl, monthsEl, daysEl);
-
-    longestFragment.appendChild(li);
+    longestFragment.appendChild(createBugItem(bug));
   }
 
   document.body.classList.remove("loading");
@@ -146,6 +107,32 @@ async function onFormSubmit(appendEmail = true) {
   form.querySelectorAll("input").forEach((input) => (input.disabled = false));
   oldestList.appendChild(oldestFragment);
   longestList.appendChild(longestFragment);
+}
+
+function createBugItem(bug) {
+  const li = document.createElement("li");
+
+  const header = document.createElement("header");
+  const date = document.createElement("time");
+  date.textContent = bug.resolution.format("YYYY-MM-DD");
+  date.classList.add("date");
+
+  const duration = document.createElement("span");
+  const diffDuration = moment.duration(bug.diff);
+  const years = diffDuration.years();
+  const months = diffDuration.months();
+  const days = diffDuration.days();
+  duration.innerHTML = `(open for <em>${years}</em> years <em>${months}</em> months <em>${days}</em> days)`;
+  duration.classList.add("duration");
+
+  header.append(date, duration);
+
+  const bugEl = document.createElement("a");
+  bugEl.href = bug.url;
+  bugEl.textContent = `Bug ${bug.id} - ${bug.summary}`;
+
+  li.append(header, bugEl);
+  return li;
 }
 
 async function getAllBugs(email) {
