@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My oldest fixed bugs on Mozilla Bugzilla</title>
+    <meta charset="utf-8" />
+
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+    <!-- import the webpage's javascript file -->
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <h1>My Oldest Fixed Bugs on Bugzilla</h1>
+    <form>
+      <label for="email">Bugzilla email:</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="xyz@mozilla.com"
+        name="email"
+        required
+        autofocus
+      />
+      <input type="submit" value="Search" />
+    </form>
+    <main class="loader">Retrieving data…</main>
+    <main class="results">
+      <h2>Oldest bugs</h2>
+      <ul class="oldest"></ul>
+
+      <h2>Longest standing bugs</h2>
+      <ul class="longest"></ul>
+    </main>
+  </body>
+</html>
