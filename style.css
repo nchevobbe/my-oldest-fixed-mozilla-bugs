@@ -53,14 +53,6 @@ h1 {
   text-decoration: none;
 }
 
-footer {
-  opacity: 0.6;
-  font-size: 0.7em;
-  text-align: center;
-  background: #eee;
-  justify-self: stretch;
-}
-
 main.loader {
   display: none;
 
@@ -80,7 +72,10 @@ main.results {
     display: grid;
     grid-template-columns: 50% 50%;
     grid-template-rows: auto 1fr;
-    /*! align-items: baseline; */
+
+    @media (width < 1000px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   h2 {
@@ -90,6 +85,10 @@ main.results {
     background-color: #4a2d87;
     color: #ff8a96;
     text-align: center;
+
+    @media (width < 1000px) {
+      grid-row: unset;
+    }
   }
 }
 
@@ -140,6 +139,12 @@ li + li {
   padding-top: 2em;
 }
 
+li footer {
+  line-height: 0.9;
+  text-align: end;
+  margin-top: 10px;
+}
+
 .date,
 .duration em {
   font-family: "Zilla Slab", sans-serif;
@@ -148,14 +153,13 @@ li + li {
 }
 
 .duration {
-  margin-inline-start: 10px;
+  font-size: 0.8em;
 }
 
 ul a {
   font-family: "Zilla Slab", sans-serif;
   font-weight: 700;
-  padding: 0.3em;
-  grid-row: 1;
+
   &:visited {
     color: #4a2d87;
   }
